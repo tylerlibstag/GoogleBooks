@@ -1,21 +1,17 @@
 import React,{useState} from 'react';
 import API from '../../utils/API'
-import axios from "axios";
 import AddButton from '../addButton';
-function Search() {
+function Search({book}) {
    
     var [state, setstate] = useState({
         search: "",
         results: []
-
     });
 
     var handleTyping = (e) => {
-
         setstate({
             ...state, search: e.target.value
         })
-
     }
 
     var handleClick = () => {
@@ -23,13 +19,20 @@ function Search() {
             setstate({
                 ...state, results: data.data.items
             })
-
         })
         console.log("yougot clicked")
     }
-    const makeBook = (event) => {
-        let bookIndex = parseInt(event.target.getAttribute('index'));
-        axios.post('/api/books', setstate[bookIndex]);
+    const makeBook = (book) => {
+        //event.preventDefault()
+        console.log(book,"this book input")
+        API.saveBook({
+            author: book.volumeInfo.author,
+            description: book.volumeInfo.description,
+            image: book.volumeInfo.imageLinks.thumbnail,
+            link: book.volumeInfo.previewLink,    
+            title: book.volumeInfo.title
+        })
+        .catch(err => console.log(err));
     }
     console.log(state)
     return (
@@ -37,19 +40,19 @@ function Search() {
         <div className="App">
             <input onChange={handleTyping} />
             <button onClick={handleClick}>Search</button>
-            {state.results.map(function (book) {
+            {state.results.map(function (book,id) {
                 return (
-
-                    <div>
+                    
+                    <div key={id}>
                         <h1>{book.volumeInfo.title}</h1>
                         <h1>{book.volumeInfo.author}</h1>
                         <p>{book.volumeInfo.description}</p>
                         <img src={book.volumeInfo.imageLinks.thumbnail} />
                         <a href={book.volumeInfo.infoLink}>More Info</a>
                     
-                        <AddButton className="card-body">
-                            {state.results.map((result, index) => <div key={index} index={index} buttonText="Add" buttonClicked={makeBook} book={result} />)}
-                        </AddButton>
+                        <AddButton buttonClicked={() => makeBook(book)} className="card-body"/>
+                      
+                        
 
                        
                     </div>
