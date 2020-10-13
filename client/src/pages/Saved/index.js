@@ -11,7 +11,7 @@ function SavedPage(book) {
 
   useEffect(() => {
     loadBooks()
-  },)
+  },[])
 
   function deleteBook(id) {
     API.deleteBook(id)
