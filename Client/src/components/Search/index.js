@@ -1,6 +1,8 @@
 import React,{useState} from 'react';
 import API from '../../utils/API'
 import AddButton from '../addButton';
+import NavBar from '../NavBar'
+
 function Search({book}) {
    
     var [state, setstate] = useState({
@@ -38,6 +40,7 @@ function Search({book}) {
     return (
 
         <div className="App">
+            <navBar/>
             <input onChange={handleTyping} />
             <button onClick={handleClick}>Search</button>
             {state.results.map(function (book,id) {
