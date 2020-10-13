@@ -40,7 +40,7 @@ function Search({book}) {
     return (
 
         <div className="App">
-            <navBar/>
+          
             <input onChange={handleTyping} />
             <button onClick={handleClick}>Search</button>
             {state.results.map(function (book,id) {
@@ -48,7 +48,7 @@ function Search({book}) {
                     
                     <div key={id}>
                         <h1>{book.volumeInfo.title}</h1>
-                        <h1>{book.volumeInfo.author}</h1>
+                        <h1>{book.volumeInfo.authors.join(", ")}</h1>
                         <p>{book.volumeInfo.description}</p>
                         <img src={book.volumeInfo.imageLinks.thumbnail} />
                         <a href={book.volumeInfo.infoLink}>More Info</a>
